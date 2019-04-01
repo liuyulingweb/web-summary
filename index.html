@@ -11,7 +11,7 @@
 		<div id="content"></div>
 	</body>
 	<script>
-		$.get("./test.md", function(response, status, xhr) {
+		$.get("./readme.md", function(response, status, xhr) {
 			$("#content").html(marked(response));
 		});
 	</script>
