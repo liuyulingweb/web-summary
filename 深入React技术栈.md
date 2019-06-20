@@ -72,5 +72,50 @@
 2.5 组件间抽象
   2.5.1 mixin
   
-    
+2.6.1 纯函数
+纯函数由三大原则构成：
+  给定相同的输入，它总是返回相同的输出；
+  过程没有副作用（side effect）；
+  没有额外的状态依赖
+KISS原则（Keep It Simple,Stupid）：在简洁性与傻瓜化；
+
+为了避免浅拷贝带来的负面影响，提出了 Immutable 原则，可以借用 lodash 的 cloneDeep 来解决。
+
+2.6.2 PureRender
+可以使用官方的插件，其名为 react-addons-pure-render-mixin。  
+this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);  
+return <div className={this.props.className}>foo</div>;
+
+利用 Immutable.is 优化后的 shouldComponentUpdate:
+```
+import React, { Component } from 'react';
+import { is } from 'immutable';
+class App extends Component {
+	shouldComponentUpdate(nextProps, nextState) {
+		const thisProps = this.props || {};
+		const thisState = this.state || {};
+		if (
+			Object.keys(thisProps).length !== Object.keys(nextProps).length ||
+			Object.keys(thisState).length !== Object.keys(nextState).length
+		) {
+			return true;
+		}
+		for (const key in nextProps) {
+			if (nextProps.hasOwnProperty(key) && !is(thisProps[key], nextProps[key])) {
+				return true;
+			}
+		}
+		for (const key in nextState) {
+			if (nextState.hasOwnProperty(key) && !is(thisState[key], nextState[key])) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+```
+
+2.6.4 key
+有两个子组件需要渲染的时候，我们没法给它们设 key。这时需要用到 React 插件 createFragment 来解决
   
