@@ -119,3 +119,28 @@ class App extends Component {
 2.6.4 key
 有两个子组件需要渲染的时候，我们没法给它们设 key。这时需要用到 React 插件 createFragment 来解决
   
+2.6.5 react-addons-perf（性能检测）
+React 提供的 TransitionGroup 能够帮助我们便捷地识别出增加或删除的组件，从而让我们能够专注于更加简单的属性变化的动画。
+
+2.7.1 CSS 动画与 JavaScript 动画
+1. CSS 动画的局限性
+	- CSS 只支持 cubic-bezier 的缓动，如果你的动画对缓动函数有要求，就必须使用 JavaScript动画。
+	- CSS 动画只能针对一些特有的 CSS 属性。仍然有一些属性是 CSS 动画不支持的，例如SVG 中 path 的 d 属性。
+	- CSS 把 translate、rotate、skew 等都归结为一个属性——transform。因此，这些属性只能共用同一个缓动函数。例如，我们想要动画的轨迹是一条贝塞尔曲线，可以通过给 left和 top 这两个属性加两个不同的 cubic-bezier 缓动来实现，但是 left 和 top 实现的动画性能不如 translateX 和 translateY。
+	
+2. CSS animation
+
+
+3. 用 JavaScript 包装过的 CSS 动画
+使用 react-smooth 库来写动画。
+
+4. JavaScript 动画
+JavaScript 动画包含缓动函数部分和渲染部分。
+
+5. SVG 线条动画
+说起 SVG 线条动画，最出名的恐怕是 vivus.js，它巧妙地利用了 SVG path 的 stroke-dasharray属性和 getTotalLength 方法。
+
+spring 动画->react-motion 库
+
+
+2.8 自动化测试
